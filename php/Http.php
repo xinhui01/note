@@ -179,4 +179,65 @@ class Http
             }
         }
     }
+    /**
+     * 模拟post表单Post提交
+     */
+    public function httpPostBuildData($url,$param){
+        #手工组包
+        $data = '';
+        $id = uniqid();
+        $this->buildDataFun($param,$id,$data);
+        $data .=  "--".$id . "--";
+        #手工组包
+     
+        // echo $data;
+        $ch = curl_init();//初始化
+        curl_setopt($ch,CURLOPT_URL,$url);//设置URL
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//设置允许https访问。忽略证书错误
+        curl_setopt($ch,CURLOPT_POST,1);//设置get或者post
+        curl_setopt($ch,CURLOPT_HTTPHEADER,[
+            'Expect:  ',//PHP的坑 设置POST不发送 HTTP/1.1 100 Continue 
+            "Content-Type: multipart/form-data; boundary=".$id,
+            "Content-Length: " . strlen($data)
+        ]);//设置协议附加头head
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//提交POST内容
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);//在执行curl_exec返回结果
+        $ret=curl_exec($ch);//执行
+        curl_close($ch); 
+        return $ret;
+    }
+     #手工组包
+     public function buildDataFun($param,$id,&$data,&$path='',$iii=0){
+        if(isset($param['filename'])){
+            #正常时是这样传送file文件的
+            #$file = curl_file_create(ROOT_PATH . '/public/154106488401000050.pdf',"application/octet-stream");
+    
+            $data .=  "--".$id . "\r\n"
+            . 'Content-Disposition: form-data; name="'. $path.'"; filename="' . $param['filename'] . '"' . "\r\n"
+            . 'Content-Type: application/octet-stream'."\r\n\r\n";
+            
+            $data .= $param['file'] . "\r\n";
+            return ;
+        }
+        if(is_array($param) && $path != ''){
+            // $data .= "--" . $id . "\r\n". 'Content-Disposition: form-data; name="' .$path . "\"\r\n\r\n". $content . "\r\n";  
+            $data .= "--" . $id . "\r\n". 'Content-Disposition: form-data; name="' .$path . "\"\r\n\r\n". $param . "\r\n";  
+        }
+        foreach ($param as $name => $content) {
+            if($path == ''){
+                $path1 = $name;
+            }else{
+                $path1 = $path."[".$name."]";
+            }
+            if(is_array($content)) {
+                $this->buildDataFun($content,$id,$data,$path1);
+            } else{
+                $data .= "--" . $id . "\r\n"
+                . 'Content-Disposition: form-data; name="' .$path1 . "\"\r\n\r\n"
+                . $content . "\r\n";  
+            }
+            
+        }
+        return ;
+    }
 }
