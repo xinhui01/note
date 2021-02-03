@@ -37,7 +37,7 @@ ImagePng($QR);
 ```
 ## 写入日志
 ```php
-public static function wirteLog($Astring)
+public static function writeLog($Astring)
 {
     $path = $_SERVER['DOCUMENT_ROOT'];
     $path = $path."/userpay/Log/";
@@ -46,11 +46,11 @@ public static function wirteLog($Astring)
     $LogTime = date('Y-m-d H:i:s',time());
     if(!file_exists($file))
     {
-        $logfile = fopen($file, "w") or die("Unable to open file!");
+        $logfile = fopen($file, "w");
         fwrite($logfile, "[$LogTime]:".$Astring."\r\n");
         fclose($logfile);
     }else{
-        $logfile = fopen($file, "a") or die("Unable to open file!");
+        $logfile = fopen($file, "a");
         fwrite($logfile, "[$LogTime]:".$Astring."\r\n");
         fclose($logfile);
     }
