@@ -82,7 +82,7 @@ class Date
   echo date("t");
   echo "*********";
  
-  echo '<br>上周起始时间:<br>';
+  echo '<br>上周起始时间:<br>'; //在周日存在问题,需要自己处理
   echo date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1-7,date("Y"))),"\n";
   echo date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("d")-date("w")+7-7,date("Y"))),"\n";
   echo '<br>本周起始时间:<br>';
