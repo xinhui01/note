@@ -15,3 +15,8 @@ cd /opt
 tar czf /data/local_bak/nginx.bak-${baktime}.tgz nginx
 
 ```
+## Linux下查看tcp连接数及状态命令：
+```shell
+netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+
+```
