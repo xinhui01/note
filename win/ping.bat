@@ -20,3 +20,5 @@ for %%a in (%Error%) do (
     find "%%~a" "%tmp%\Ping.$" >nul && (echo %DT% %%~a)>>"%Log%"
 )
 goto Loop
+
+https://m.buy.mi.com/hk/registration 小米手机激活时间查询
