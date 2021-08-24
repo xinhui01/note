@@ -6,3 +6,7 @@
 
 源路径 C:\Users\Administrator\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc
 ```
+# 删除微软商店下载包
+```
+C:\Windows\SoftwareDistribution\Download
+```
