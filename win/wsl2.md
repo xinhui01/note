@@ -9,4 +9,5 @@
 # 删除微软商店下载包
 ```
 C:\Windows\SoftwareDistribution\Download
+C:\Windows\SoftwareDistribution\DataStore
 ```
