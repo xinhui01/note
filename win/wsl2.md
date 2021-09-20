@@ -17,7 +17,12 @@ C:\Windows\SoftwareDistribution\DataStore
 ubuntu 默认开启ibus输入法
 安装拼音输入法过后,乱码,需要安装中文字体
 goland 开启后无法使用拼音输入法,需要在启动sh文件头部加入
+
 export XMODIFIERS="@im=ibus"
 export GTK_IM_MODULE="ibus"
 export QT_IM_MODULE="ibus" 
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
 ```
