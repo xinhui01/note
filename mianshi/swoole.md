@@ -28,3 +28,11 @@
 - 协程让出程序控制权后，会继续进入 HTTP 服务器的事件循环处理其他事件，这时 Swoole 可以继续去处理其他客户端发来的请求；
 - 当数据库 IO 事件完成后，MySQL 连接成功或失败，底层调用 C 函数 coro_resume 恢复对应的协程，恢复 ZendVM 上下文，继续向下执行 PHP 代码；
 mysql->query 的执行过程与 mysql->connect 一样，也会触发 IO 事件并进行一次协程切换调度；
+
+## swoole生命周期
+![](../img/swoole.png)
+1. 初始化 Manager 管理进程,创建work工作进程,监听tco/udp端口,和定时器
+2. onStart onStart回调函数是在master主进程中执行,和onWork子进程是并行,没有先后之分
+3. onReceive 客户端请求的数据到达时会调用onReceive函数，客户端发送的多次请求，服务端是可以一次性接收的，所以会发现一个问题是onReceive接收的数据会非常大
+4. onWorkerStop Worker工作子进程退出时回调onWorkerStop函数
+5. nShutDown Swoole服务停止时回调onShutDown函数，然后继续PHP-FPM的第5~6步，最后退出PHP的生命周期
