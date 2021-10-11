@@ -35,4 +35,4 @@ mysql->query 的执行过程与 mysql->connect 一样，也会触发 IO 事件�
 2. onStart onStart回调函数是在master主进程中执行,和onWork子进程是并行,没有先后之分
 3. onReceive 客户端请求的数据到达时会调用onReceive函数，客户端发送的多次请求，服务端是可以一次性接收的，所以会发现一个问题是onReceive接收的数据会非常大
 4. onWorkerStop Worker工作子进程退出时回调onWorkerStop函数
-5. nShutDown Swoole服务停止时回调onShutDown函数，然后继续PHP-FPM的第5~6步，最后退出PHP的生命周期
+5. onShutDown Swoole服务停止时回调onShutDown函数，然后继续PHP-FPM的第5~6步，最后退出PHP的生命周期
