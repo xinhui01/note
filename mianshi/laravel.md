@@ -19,7 +19,7 @@
     public function then(Closure $destination)
     {
         $pipeline = array_reduce(
-            array_reverse($this->pipes), $this->carry(), $this->prepareDestination($destination)
+            array_reverse($this->pipes), $this->carry(), $this->prepareDestination($destination)//最后一个$next,之前的都是中间件
         );
 
         return $pipeline($this->passable);
