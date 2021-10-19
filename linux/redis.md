@@ -30,3 +30,8 @@ aof-load-truncated  默认值是yes，在写入AOF文件时，突然断电写了
 ```
 keys * #查看所有key
 ```
+
+## redis 击穿/穿透 (某个key在db查不到值)
+- 设置空值
+## redis雪崩 (多个key失效,redis挂了)
+- 可以利用互斥锁,只允许单个线程访问数据库

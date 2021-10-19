@@ -47,3 +47,8 @@ function array_reduce($arr, $callback, $init = null)
     return $ret;
 }
 ```
+## 现代化表现
+- 代码风格
+- 面向对象、设计模式等
+- 可拓展性强
+- 从前端、后端、测试、及部分运维事项（如定时脚本、DB-migration等）都很完善
