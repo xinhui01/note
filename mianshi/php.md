@@ -12,6 +12,20 @@
 ## php-fpm
 - fpm是PHP FastCgi运行模式的一个进程管理器，FastCgi是Web服务器（Nginx、Apache）和处理程序之间的一种通信协议
 - PHP没有实现Http网络库，而是实现了FastCgi协议，通过与web服务器配合实现http的处理，web服务器处理http请求，将解析的结果通过fastcgi协议转发给PHP程序，PHP程序处理完将结果返回给web服务器，完成请求返回给客户端
+## php架构
+![](../img/php7架构.png)
+- Zend 引擎：Zend引擎为PHP提供了基础服务，包括词法分析 语法分析 ，AST抽象语法树编译 opcodes执行，PHP的变量设计、内存管理、进程管理。
+- PHP层：绑定了SAPI层并处理与它的通信，它同时对safe_mode和open_basedir的检测提供一致的控制层，将fopen()、fread()和fwrite()等用户空间的函数与文件和网络I/O联系起来。
+- SAPI：包括了cli fpm等，- 把接口对外接口都抽象出来，只要遵守SAPI协议便可以实现一个server。
+- 拓展：zend 引擎提供了核心能力和接口规范，在此基础上可以开发拓展
+  - 这里的拓展分为了两种，通常在php.ini中，通过extension=加载的扩展我们称为PHP扩展，通过zend_extension=加载的扩展我们称为Zend扩展，但从源码的角度来讲，PHP扩展应该称为“模块”（源码中以module命名），而Zend扩展称为“扩展”（源码中以extension命名）。两者最大的区别在于向引擎注册的钩子，向用户层面提供一些C实现的PHP函数，需要用到zend_module_entry（即作为PHP扩展），而需要hook到Zend引擎的话，就得用到zend_extension（即作为Zend扩展）
+  
+## php解析过程
+![](../img/php执行过程.png)
+- 词法分析，把源代码切割成多个字符串单元（Token）
+- 语法分析器把Token转换成AST抽象语法树
+- 抽象语法树转换成opcodes(opcode指令集合)
+- 虚拟机解释执行执行opcodes(opcode是一组指令标识，对应handler处理函数)
 ## php-fpm 生命周期
 - php生命周期中4个关键调用 MINT->RINT->RSHUTDOWN->MSHUTODWN
 - php的运行模式有两种：web模式和cli模式。无论是哪种公众模式，php的工作原理都是一样的，都是作为一种SAPI运行。首先，认识下SAPI
